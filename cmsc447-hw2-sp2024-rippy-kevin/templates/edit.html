@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block name %} Edit "{{ info['name'] }}" {% endblock %}</h1>
+    <form method="post">
+        <label for="name">Name:</label>
+        <input type="text" name="name"
+               placeholder="Enter name"
+               value="{{ request.form['name'] or info['name'] }}"></input>
+        <br>
+
+        <br>
+        <label for="score">Score:</label>
+        <input type="number" name="score"
+               placeholder="Enter score"
+               value="{{ request.form['score'] or info['score'] }}"></input>
+        <br>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <hr>
+    <form action="{{ url_for('delete', id=info['id']) }}" method="POST">
+        <input type="submit" value="Delete Entry"
+                onclick="return confirm('Are you sure you want to delete this entry?')">
+    </form>
+{% endblock %}
