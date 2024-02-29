@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+<style>
+    .search[type=text] {
+        float: right;
+        padding: 6px;
+        border: none;
+        margin-top: 8px;
+        margin-right: 16px;
+        font-size: 17px;
+    }
+</style>
+{% block content %}
+    <h1>{% block title %} Entires {% endblock %}</h1>
+
+    <input class="search" id="search" type="text" placeholder="Search...">
+    <div id="result"></div>
+    
+    {% for user in users %}
+        <div class="my-div" id="{{ user['name'] }}">
+            <a href="{{ url_for('edit', id=user['id']) }}" class="fill-div">
+                <pre><b>Name</b>:    {{ user['name'] }}</pre>
+                <pre><b>ID</b>:      {{ user['id'] }}</pre>
+                <pre><b>Score</b>:   {{ user['score'] }}</pre>
+            </a>
+        </div>
+    {% endfor %}
+    <script>
+        const search = document.getElementById('search');
+        users = ("{% for user in users %}{{ user['name'] }},{% endfor %}").split(",");
+        
+        console.log(users);
+        for (i in users) {
+            console.log(users[i])
+        }
+    
+        const inputHandler = function(e) {
+
+            for (i in users) {
+                user_group = document.getElementById(users[i])
+                if (!user_group) {continue;}
+
+                if (users[i].toLowerCase().includes(search.value.toLowerCase())) {
+                    user_group.style.display = "block"
+                } else {
+                    user_group.style.display = "none"
+                }
+            }
+        }
+    
+        search.addEventListener('input', inputHandler);
+        search.addEventListener('propertychange', inputHandler);
+    </script>
+{% endblock %}
